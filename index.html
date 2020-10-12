@@ -5,7 +5,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Weather Dashboard</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
    <header>
@@ -143,7 +143,7 @@
          $("#humid").text("Humidity: " + humidity + "%");
          $("#speed").text("Wind Speed: " + speed + " MPH");
 
-         var uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
+         var uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
          $.ajax({
             url: uvIndexURL,
             method: "GET"
@@ -153,7 +153,7 @@
             $("#uv").text("UV Index: " + uvIndex);
          });
          
-         var futureURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
+         var futureURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
          $.ajax({
             url: futureURL,
             method: "GET"
@@ -237,7 +237,7 @@
          $("#speed").text("Wind Speed: " + speed + " MPH");
 
          // Api call for UV index
-         var uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
+         var uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
          $.ajax({
             url: uvIndexURL,
             method: "GET"
@@ -248,7 +248,7 @@
          });
          
          // Api call for future weather
-         var futureURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
+         var futureURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
          $.ajax({
             url: futureURL,
             method: "GET"
