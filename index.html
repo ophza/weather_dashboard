@@ -9,10 +9,18 @@
 </head>
 <body>
    <header>
-      <div>
-         <h1>
-            Weather Dashboard
-         </h1>
+      <h1 class="title">
+         Weather Dashboard
+      </h1>
+      <div class="theme-icons">
+         <img class="white-icon" src="assets/img/whiteIcon.png">
+         <img class="grey-icon" src="assets/img/greyIcon.png">
+         <img class="red-icon" src="assets/img/redIcon.png">
+         <img class="orange-icon" src="assets/img/orangeIcon.png">
+         <img class="yellow-icon" src="assets/img/yellowIcon.png">
+         <img class="green-icon" src="assets/img/greenIcon.png">
+         <img class="blue-icon" src="assets/img/blueIcon.png">
+         <img class="purple-icon" src="assets/img/purpleIcon.png">
       </div>
    </header>
    <main>
@@ -32,8 +40,8 @@
                <div class=row>
                   <h2 class="col-5" id="name"> <!--City Name--> </h2>
                   <h2 class="col-5" id="date"> <!--Date--> </h2>
-                  <img class="col-2" id="icon"> <!--Weather Icon-->
                </div>
+               <div id="weatherDiv"></div>
                <p id="temp"> <!--Curr Temp--> </p>
                <p id="humid"> <!--Curr Humidity--> </p>
                <p id="speed"> <!--Curr Wind Speed--> </p>
@@ -41,30 +49,35 @@
             </div>
             <div id="futureWeather">
                <!-- Area for future weather conditions -->
-               <h2>5-Day Forecast</h2>
+               <h2 id="future-forecast-header"></h2>
                <div class="row">
                   <div class="col-2" id="day1">
-                     <img id="icon1">
+                     <div id="day-one-header"></div>
+                     <div id="weatherDiv1"></div>
                      <p id="temp1"></p>
                      <p id="humid1"></p>
                   </div>
                   <div class="col-2" id="day2">
-                     <img id="icon2">
+                     <div id="day-two-header"></div>
+                     <div id="weatherDiv2"></div>
                      <p id="temp2"></p>
                      <p id="humid2"></p>
                   </div>
                   <div class="col-2" id="day3">
-                     <img id="icon3">
+                     <div id="day-three-header"></div>
+                     <div id="weatherDiv3"></div>
                      <p id="temp3"></p>
                      <p id="humid3"3></p>
                   </div>
                   <div class="col-2" id="day4">
-                     <img id="icon4">
+                     <div id="day-four-header"></div>
+                     <div id="weatherDiv4"></div>
                      <p id="temp4"></p>
                      <p id="humid4"></p>
                   </div>
                   <div class="col-2" id="day5">
-                     <img id="icon5">
+                     <div id="day-five-header"></div>
+                     <div id="weatherDiv5"></div>
                      <p id="temp5"></p>
                      <p id="humid5"></p>
                   </div>
@@ -76,226 +89,6 @@
 
    <!-- Java Script -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   <script type="text/javascript">
-   // Global Variables
-   var cities = [];
-   
-   // Determines if user clicks "SEARCH"
-   $("#addCity").on("click", function(event){
-      event.preventDefault();
-      // Gets user input
-      var city = $("#cityInput").val().trim();
-      // Adds city to cities array
-      cities.push(city);
-      // Activates search history function
-      searchHistory();
-      // Activates the find weather function
-      findWeather();
-   })
-
-   function searchHistory(){
-      $("#citiesHistory").empty();
-
-      for(var i = 0; i < cities.length; i++){
-         var a = $("<button>");
-         var b = $("<br>");
-
-         a.addClass("city");
-         a.attr("data-name", cities[i]);
-         a.text(cities[i]);
-
-         $("#citiesHistory").append(a);
-         $("#citiesHistory").append(b);
-      }
-   }
-
-   $(document).on("click", ".city", getCityInfo);
-   function getCityInfo(){
-      var key = "9585535e8d36d551ec1c0818b1db0ec6";
-      var cityName = $(this).text();
-      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key;
-
-      $.ajax({
-         url: queryURL,
-         method: "GET"
-      }).then(function(response){
-         // Logs entire info
-         console.log(response);
-
-         // Logs the name of the city
-         var cityName = response.name;
-         // Logs wind speed
-         var speed = response.wind.speed;
-         // Logs humidity
-         var humidity = response.main.humidity;
-         // Logs temperature
-         var tempKelvin = response.main.temp;
-         var tempFar = parseInt((tempKelvin - 273.15) * 1.80 + 32);
-         // Logs the icon descriptor
-         var iconData = response.weather[0].icon;
-         // Logs lat and lon
-         var lon = response.coord.lon;
-         var lat = response.coord.lat;
-
-         // Code that prints data onto site
-         $("#name").text(cityName);
-         $("#temp").text("Temperature: " + tempFar + " °F");
-         $("#humid").text("Humidity: " + humidity + "%");
-         $("#speed").text("Wind Speed: " + speed + " MPH");
-
-         var uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
-         $.ajax({
-            url: uvIndexURL,
-            method: "GET"
-         }).then(function(uvResponse){
-            console.log(uvResponse);
-            var uvIndex = uvResponse.value;
-            $("#uv").text("UV Index: " + uvIndex);
-         });
-         
-         var futureURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
-         $.ajax({
-            url: futureURL,
-            method: "GET"
-         }).then(function(furResponse){
-            console.log(furResponse);
-            // Day 1
-            var temp1 = furResponse.list[6].main.temp;
-            var farTemp1 = parseInt((temp1 - 273.15) * 1.80 + 32);
-            var humid1 = furResponse.list[6].main.humidity;
-            var iconData1 = furResponse.list[6].weather[0].icon;
-            $("#temp1").text("Temp: " + farTemp1 + " °F");
-            $("#humid1").text("Humidity: " + humid1 + "%");
-
-            // Day 2
-            var temp2 = furResponse.list[14].main.temp;
-            var farTemp2 = parseInt((temp2 - 273.15) * 1.80 + 32);
-            var humid2 = furResponse.list[14].main.humidity;
-            var iconData2 = furResponse.list[14].weather[0].icon;
-            $("#temp2").text("Temp: " + farTemp2 + " °F");
-            $("#humid2").text("Humidity: " + humid2 + "%");
-
-            // Day 3
-            var temp3 = furResponse.list[22].main.temp;
-            var farTemp3 = parseInt((temp3 - 273.15) * 1.80 + 32);
-            var humid3 = furResponse.list[22].main.humidity;
-            var iconData3 = furResponse.list[22].weather[0].icon;
-            $("#temp3").text("Temp: " + farTemp3 + " °F");
-            $("#humid3").text("Humidity: " + humid3 + "%");
-
-            // Day 4
-            var temp4 = furResponse.list[30].main.temp;
-            var farTemp4 = parseInt((temp4 - 273.15) * 1.80 + 32);
-            var humid4 = furResponse.list[30].main.humidity;
-            var iconData4 = furResponse.list[30].weather[0].icon;
-            $("#temp4").text("Temp: " + farTemp4 + " °F");
-            $("#humid4").text("Humidity: " + humid4 + "%");
-
-            // Day 5
-            var temp5 = furResponse.list[38].main.temp;
-            var farTemp5 = parseInt((temp5 - 273.15) * 1.80 + 32);
-            var humid5 = furResponse.list[38].main.humidity;
-            var iconData5 = furResponse.list[38].weather[0].icon;
-            $("#temp5").text("Temp: " + farTemp5 + " °F");
-            $("#humid5").text("Humidity: " + humid5 + "%");
-         })
-      })
-   }
-
-   // Gets the weather for the searched city
-   function findWeather(){
-      var key = "9585535e8d36d551ec1c0818b1db0ec6";
-      var cityName = $("#cityInput").val().trim();
-      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + key;
-
-      $.ajax({
-         url: queryURL,
-         method: "GET"
-      }).then(function(response){
-         // Logs entire info
-         console.log(response);
-
-         // Logs the name of the city
-         var cityName = response.name;
-         // Logs wind speed
-         var speed = response.wind.speed;
-         // Logs humidity
-         var humidity = response.main.humidity;
-         // Logs temperature
-         var tempKelvin = response.main.temp;
-         var tempFar = parseInt((tempKelvin - 273.15) * 1.80 + 32);
-         // Logs the icon descriptor
-         var iconData = response.weather[0].icon;
-         // Logs lat and lon
-         var lon = response.coord.lon;
-         var lat = response.coord.lat;
-
-         // Code that prints data onto site
-         $("#name").text(cityName);
-         $("#temp").text("Temperature: " + tempFar + " °F");
-         $("#humid").text("Humidity: " + humidity + "%");
-         $("#speed").text("Wind Speed: " + speed + " MPH");
-
-         // Api call for UV index
-         var uvIndexURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + key;
-         $.ajax({
-            url: uvIndexURL,
-            method: "GET"
-         }).then(function(uvResponse){
-            console.log(uvResponse);
-            var uvIndex = uvResponse.value;
-            $("#uv").text("UV Index: " + uvIndex);
-         });
-         
-         // Api call for future weather
-         var futureURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + key;
-         $.ajax({
-            url: futureURL,
-            method: "GET"
-         }).then(function(furResponse){
-            console.log(furResponse);
-            // Day 1
-            var temp1 = furResponse.list[6].main.temp;
-            var farTemp1 = parseInt((temp1 - 273.15) * 1.80 + 32);
-            var humid1 = furResponse.list[6].main.humidity;
-            var iconData1 = furResponse.list[6].weather[0].icon;
-            $("#temp1").text("Temp: " + farTemp1 + " °F");
-            $("#humid1").text("Humidity: " + humid1 + "%");
-
-            // Day 2
-            var temp2 = furResponse.list[14].main.temp;
-            var farTemp2 = parseInt((temp2 - 273.15) * 1.80 + 32);
-            var humid2 = furResponse.list[14].main.humidity;
-            var iconData2 = furResponse.list[14].weather[0].icon;
-            $("#temp2").text("Temp: " + farTemp2 + " °F");
-            $("#humid2").text("Humidity: " + humid2 + "%");
-
-            // Day 3
-            var temp3 = furResponse.list[22].main.temp;
-            var farTemp3 = parseInt((temp3 - 273.15) * 1.80 + 32);
-            var humid3 = furResponse.list[22].main.humidity;
-            var iconData3 = furResponse.list[22].weather[0].icon;
-            $("#temp3").text("Temp: " + farTemp3 + " °F");
-            $("#humid3").text("Humidity: " + humid3 + "%");
-
-            // Day 4
-            var temp4 = furResponse.list[30].main.temp;
-            var farTemp4 = parseInt((temp4 - 273.15) * 1.80 + 32);
-            var humid4 = furResponse.list[30].main.humidity;
-            var iconData4 = furResponse.list[30].weather[0].icon;
-            $("#temp4").text("Temp: " + farTemp4 + " °F");
-            $("#humid4").text("Humidity: " + humid4 + "%");
-
-            // Day 5
-            var temp5 = furResponse.list[38].main.temp;
-            var farTemp5 = parseInt((temp5 - 273.15) * 1.80 + 32);
-            var humid5 = furResponse.list[38].main.humidity;
-            var iconData5 = furResponse.list[38].weather[0].icon;
-            $("#temp5").text("Temp: " + farTemp5 + " °F");
-            $("#humid5").text("Humidity: " + humid5 + "%");
-         })
-      });
-   }
-   </script>
+   <script type="text/javascript" src="./assets/index.js"></script>
 </body>
 </html>
