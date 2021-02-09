@@ -10,10 +10,14 @@ body{
    background-size: cover;
    
 }
+body.dark-mode{
+   background-image: url("./img/greyPage.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+}
 header{
    display: flex;
-   justify-content: space-around;
-   align-items: center;
+   align-items: left;
    min-height: 10vh;
    width: 100%;
    background-color: #ffffff;

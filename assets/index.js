@@ -1,6 +1,12 @@
 // Global Variables
 var cities = [];
-   
+
+$(".toggle").on("click", function(event){
+   event.preventDefault();
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+})
+
 // Determines if user clicks "SEARCH"
 $("#addCity").on("click", function(event){
    event.preventDefault();
