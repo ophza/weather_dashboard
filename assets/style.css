@@ -25,6 +25,20 @@ header{
 header.dark-mode{
    background-color: #7F8D97;
 }
+div.toggle{
+   background-image: url("./img/lightBtn.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+   height: 8vh;
+   width: 8vh;
+   margin-top: 1vh;
+   margin-left: 1vh;
+   margin-right: 1vh;
+   cursor: pointer;
+}
+div.toggle.dark-mode{
+   background-image: url("./img/darkBtn.png");
+}
 .title{
    font-size: 55pt;
 }

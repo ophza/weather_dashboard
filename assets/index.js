@@ -5,9 +5,7 @@ $(".toggle").on("click", function(event){
    event.preventDefault();
    $("body").toggleClass("dark-mode");
    $("header").toggleClass("dark-mode");
-
-   // var element = document.body;
-   // element.classList.toggle("dark-mode");
+   $("div.toggle").toggleClass("dark-mode");
 })
 
 // Determines if user clicks "SEARCH"
