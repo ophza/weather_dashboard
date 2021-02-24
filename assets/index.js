@@ -3,8 +3,11 @@ var cities = [];
 
 $(".toggle").on("click", function(event){
    event.preventDefault();
-   var element = document.body;
-   element.classList.toggle("dark-mode");
+   $("body").toggleClass("dark-mode");
+   $("header").toggleClass("dark-mode");
+
+   // var element = document.body;
+   // element.classList.toggle("dark-mode");
 })
 
 // Determines if user clicks "SEARCH"
